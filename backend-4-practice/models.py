@@ -1,0 +1,38 @@
+from sqlalchemy import Float, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
+
+from database import Base
+
+
+class Category(Base):
+    """SQLAlchemy-модель категории услуг."""
+
+    __tablename__ = "categories"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+
+
+class Service(Base):
+    """SQLAlchemy-модель услуги салона."""
+
+    __tablename__ = "services"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    category_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("categories.id"), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(100), nullable=False)
+    desc: Mapped[str] = mapped_column(String(100), nullable=False)
+    duration: Mapped[int] = mapped_column(Integer, nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
+
+
+class Master(Base):
+    """SQLAlchemy-модель мастера салона."""
+
+    __tablename__ = "masters"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    specialization: Mapped[str] = mapped_column(String(100), nullable=False)
